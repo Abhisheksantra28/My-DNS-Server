@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  backend:
+    build: .
+    container_name: dns-backend
+    ports:
+      - "5000:5000"
+    depends_on:
+      - redis
+    environment:
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
+      - MONGO_URI=${MONGO_URI}
+      - PORT=${PORT}
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
