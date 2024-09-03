@@ -20,7 +20,6 @@ const corsOptions = {
 // Apply CORS middleware
 app.use(cors(corsOptions));
 
-
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

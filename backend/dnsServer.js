@@ -6,13 +6,16 @@ const server = dgram.createSocket("udp4");
 const CACHE_TTL = 3600;
 
 server.on("message", async (msg, rinfo) => {
+  console.log("Received DNS request");
   try {
     const incomingReq = dnsPacket.decode(msg);
+    console.log("Decoded request:", incomingReq); // <-- Add this log
     const domain = incomingReq.questions[0].name;
     const recordType = incomingReq.questions[0].type;
     const cacheKey = `${domain}:${recordType}`;
 
     // Check cache first
+    console.log(`Checking cache for ${cacheKey}`); // <-- Add this log
     const cachedRecord = await redis.get(cacheKey);
     if (cachedRecord) {
       const answers = JSON.parse(cachedRecord);
@@ -28,6 +31,7 @@ server.on("message", async (msg, rinfo) => {
       return;
     }
 
+    console.log(`Querying MongoDB for ${domain} with type ${recordType}`); // <-- Add this log
     // Query MongoDB if cache miss
     const records = await DnsRecord.find({ domain, type: recordType });
 
