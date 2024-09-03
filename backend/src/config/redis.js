@@ -16,4 +16,4 @@ redis.on("error", (err) => {
   process.exit(1);
 });
 
-module.exports = { redis };
+module.exports = redis;

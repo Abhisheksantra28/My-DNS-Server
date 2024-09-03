@@ -1,6 +1,8 @@
 const dgram = require("node:dgram");
 const dnsPacket = require("dns-packet");
 const DnsRecord = require("./src/models/dnsRecord.js");
+const redis = require("./src/config/redis.js");
+
 
 const server = dgram.createSocket("udp4");
 const CACHE_TTL = 3600;
