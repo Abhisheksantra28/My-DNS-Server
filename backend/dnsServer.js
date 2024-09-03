@@ -7,8 +7,8 @@ const redis = require("./src/config/redis.js");
 const server = dgram.createSocket("udp4");
 const CACHE_TTL = 3600;
 
-server.on("message", async (msg, rinfo) => {
-  console.log("Received DNS request");
+server.on('message', async (msg, rinfo) => {
+  console.log("Received DNS request with raw data:", msg);
   try {
     const incomingReq = dnsPacket.decode(msg);
     console.log("Decoded request:", incomingReq); // <-- Add this log
@@ -72,6 +72,6 @@ server
   .bind(53, () => {
     console.log("DNS server is running on port 53");
   })
-  .on("error", (err) => {
+  .on('error', (err) => {
     console.error("Failed to bind DNS server:", err);
   });
