@@ -8,6 +8,7 @@ RUN npm install
 
 COPY . .
 EXPOSE 5000
+EXPOSE 53/udp
 
 CMD [ "node", "index.js" ]
 

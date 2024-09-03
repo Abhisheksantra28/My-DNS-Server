@@ -6,6 +6,7 @@ services:
     container_name: dns-backend
     ports:
       - "5000:5000"
+      - "53:53/udp" # DNS port
     depends_on:
       - redis
     environment:
