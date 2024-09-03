@@ -16,12 +16,16 @@ const DnsRecordList: React.FC<DnsRecordListProps> = ({ records, fetchRecords }) 
 
   return (
     <ul>
-      {records?.map((record) => (
-        <li key={record._id}>
-          {record.domain} {record.type} {record.data} TTL: {record.ttl}
-          <button onClick={() => deleteRecord(record._id!)}>Delete</button>
-        </li>
-      ))}
+      {Array.isArray(records) && records.length > 0 ? (
+        records.map((record) => (
+          <li key={record._id}>
+            {record.domain} {record.type} {record.data} TTL: {record.ttl}
+            <button onClick={() => deleteRecord(record._id!)} className='ml-4'>Delete</button>
+          </li>
+        ))
+      ) : (
+        <li>No DNS records found</li>
+      )}
     </ul>
   );
 };

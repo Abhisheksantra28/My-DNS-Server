@@ -1,7 +1,7 @@
-import React, { useState, ChangeEvent, FormEvent } from 'react';
-import axios from 'axios';
-import { DnsRecord } from '../types';
-import { SERVER_URL } from '../utils/constant';
+import React, { useState, ChangeEvent, FormEvent } from "react";
+import axios from "axios";
+import { DnsRecord } from "../types";
+import { SERVER_URL } from "../utils/constant";
 
 interface DnsRecordFormProps {
   fetchRecords: () => void;
@@ -9,13 +9,15 @@ interface DnsRecordFormProps {
 
 const DnsRecordForm: React.FC<DnsRecordFormProps> = ({ fetchRecords }) => {
   const [formData, setFormData] = useState<DnsRecord>({
-    domain: '',
-    type: 'A',
-    data: '',
-    ttl: 3600
+    domain: "",
+    type: "A",
+    data: "",
+    ttl: 3600,
   });
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
@@ -23,28 +25,37 @@ const DnsRecordForm: React.FC<DnsRecordFormProps> = ({ fetchRecords }) => {
     e.preventDefault();
     await axios.post(`${SERVER_URL}/api/create-record`, formData);
     fetchRecords();
-    setFormData({ domain: '', type: 'A', data: '', ttl: 3600 });
+    setFormData({ domain: "", type: "A", data: "", ttl: 3600 });
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="flex gap-4">
       <input
         type="text"
         name="domain"
         placeholder="Domain"
+        className="text-center p-2 rounded-md"
         value={formData.domain}
         onChange={handleChange}
         required
       />
-      <select name="type" value={formData.type} onChange={handleChange} required>
+      <select
+        name="type"
+        value={formData.type}
+        onChange={handleChange}
+        required
+        className="text-center p-2 rounded-md"
+      >
         <option value="A">A</option>
         <option value="CNAME">CNAME</option>
         <option value="NS">NS</option>
       </select>
+      
       <input
         type="text"
         name="data"
         placeholder="Data"
+        className="text-center p-2 rounded-md"
         value={formData.data}
         onChange={handleChange}
         required
@@ -53,6 +64,7 @@ const DnsRecordForm: React.FC<DnsRecordFormProps> = ({ fetchRecords }) => {
         type="number"
         name="ttl"
         placeholder="TTL"
+        className="text-center p-2 rounded-md"
         value={formData.ttl}
         onChange={handleChange}
       />
