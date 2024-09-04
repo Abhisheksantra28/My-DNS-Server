@@ -12,4 +12,4 @@ EXPOSE 53/udp
 
 CMD [ "node", "index.js" ]
 
-ENV MONGO_URI=$[MONGO_URI]
+ENV MONGO_URI=${MONGO_URI}
