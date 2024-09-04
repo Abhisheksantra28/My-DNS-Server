@@ -9,9 +9,7 @@ const App: React.FC = () => {
   const [records, setRecords] = useState<DnsRecord[]>([]);
 
   const fetchRecords = async () => {
-    const { data } = await axios.get(
-      `${SERVER_URL}/api/get-all-records`
-    );
+    const { data } = await axios.get(`${SERVER_URL}/api/get-all-records`);
 
     console.log(data.data);
     setRecords(data.data);
@@ -25,8 +23,8 @@ const App: React.FC = () => {
     <div className="w-full h-screen flex flex-col  justify-center items-center">
       <h1 className="mb-10">DNS Manager</h1>
       <div className=" flex flex-col items-center space-y-5 ">
-      <DnsRecordForm fetchRecords={fetchRecords} />
-      <DnsRecordList records={records} fetchRecords={fetchRecords} />
+        <DnsRecordForm fetchRecords={fetchRecords} />
+        <DnsRecordList records={records} fetchRecords={fetchRecords} />
       </div>
     </div>
   );

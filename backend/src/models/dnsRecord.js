@@ -23,4 +23,7 @@ const dnsRecordSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("DnsRecord", dnsRecordSchema);
+
+const DnsRecord = mongoose.model("DnsRecord", dnsRecordSchema);
+
+module.exports = DnsRecord

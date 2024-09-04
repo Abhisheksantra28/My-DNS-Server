@@ -4,7 +4,7 @@ const { redis } = require("../config/redis.js");
 const CACHE_TTL = 3600; // Cache Time-to-Live in seconds
 
 // Create a DNS record
-createDnsRecord = async (req, res) => {
+const createDnsRecord = async (req, res) => {
   const { domain, type, data, ttl } = req.body;
   if (!domain || !type || !data || !ttl) {
     return res.status(400).json({
@@ -35,7 +35,7 @@ createDnsRecord = async (req, res) => {
 };
 
 // Get all DNS records
-getDnsRecords = async (req, res) => {
+const getDnsRecords = async (req, res) => {
   try {
     const records = await DnsRecord.find({});
 
@@ -61,7 +61,7 @@ getDnsRecords = async (req, res) => {
 };
 
 // Update a DNS record
-updateDnsRecord = async (req, res) => {
+const updateDnsRecord = async (req, res) => {
   const id = req.params.id;
   const { domain, type, data, ttl } = req.body;
   try {
@@ -90,8 +90,8 @@ updateDnsRecord = async (req, res) => {
 };
 
 // Delete a DNS record
-deleteDnsRecord = async (req, res) => {
-  const id = req.params.id
+const deleteDnsRecord = async (req, res) => {
+  const id = req.params.id;
   try {
     const record = await DnsRecord.findByIdAndDelete(id);
 
