@@ -1,1 +1,3 @@
-export const NAME_SERVER = 'ns1.abhisheksantra.tech';
+const NAME_SERVER = "ns1.abhisheksantra.tech";
+
+module.exports = { NAME_SERVER };
