@@ -1,5 +1,7 @@
 const DnsRecord = require("../models/dnsRecord.js");
 const { redis } = require("../config/redis.js");
+const { NAME_SERVER } = require("../utils/constant.js");
+const dns = require("dns");
 
 const CACHE_TTL = 3600; // Cache Time-to-Live in seconds
 
@@ -95,6 +97,13 @@ const deleteDnsRecord = async (req, res) => {
   try {
     const record = await DnsRecord.findByIdAndDelete(id);
 
+    if (!record) {
+      return res.status(404).json({
+        success: false,
+        message: "Record not found",
+      });
+    }
+
     // Invalidate cache
     const cacheKey = `${record.domain}:${record.type}`;
     await redis.del(cacheKey);
@@ -113,9 +122,56 @@ const deleteDnsRecord = async (req, res) => {
   }
 };
 
+// Check if the nameserver is correctly propagated
+const checkNameserver = async (req, res) => {
+  const { domain } = req.body;
+
+  if (!domain) {
+    return res.status(400).json({
+      success: false,
+      message: "Domain name is required!",
+    });
+  }
+
+  try {
+    dns.resolveNs(domain, (err, addresses) => {
+      if (err) {
+        return res.status(500).json({
+          success: false,
+          message: "Error occurred while checking nameserver!",
+          error: err.message,
+        });
+      }
+
+      console.log("Nameservers:", addresses);
+
+      if (addresses.includes(`${NAME_SERVER}`)) {
+        return res.status(200).json({
+          success: true,
+          message: "Nameserver is correctly set.",
+          data: addresses,
+        });
+      } else {
+        return res.status(400).json({
+          success: false,
+          message: "Nameserver is not set correctly.",
+          data: addresses,
+        });
+      }
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: "Error occurred while checking nameserver!",
+      error: err.message,
+    });
+  }
+};
+
 module.exports = {
   createDnsRecord,
   getDnsRecords,
   updateDnsRecord,
   deleteDnsRecord,
+  checkNameserver,
 };
