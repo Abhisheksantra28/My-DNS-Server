@@ -3,7 +3,7 @@ const connectDB = require("./src/config/connectDB.js");
 const dnsRoutes = require("./src/routes/dnsRoutes.js");
 const dotenv = require("dotenv");
 const cors = require("cors");
-const bodyParser = require('body-parser');
+const bodyParser = require("body-parser");
 const app = express();
 
 // Load environment variables
@@ -14,7 +14,7 @@ connectDB();
 
 // CORS configuration
 const corsOptions = {
-  origin: "http://localhost:5173", // Allow requests from this origin
+  origin: ["http://localhost:5173", "https://mydns.abhisheksantra.tech"], // Allow requests from this origin
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Allowed methods
 };
 
