@@ -20,7 +20,12 @@ const createDnsRecord = async (req, res) => {
 
     // Invalidate cache
     const cacheKey = `${domain}:${type}`;
-    await redis.del(cacheKey);
+    try {
+      await redis.del(cacheKey);
+    } catch (cacheError) {
+      console.error("Error deleting cache key:", cacheError);
+      // but indicate that cache invalidation had issues
+    }
 
     return res.status(201).json({
       success: true,

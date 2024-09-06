@@ -40,7 +40,7 @@ const App: React.FC = () => {
           5. Click the <strong>Add Record</strong> button to save the DNS record.
         </p>
         <p className="text-red-500">
-          * Ensure your domain's nameserver is set to <strong>ns1.abhisheksantra.tech</strong> before adding a record.
+          * Ensure your domain's nameserver is set to <strong>ns.abhisheksantra.tech</strong> before adding a record.
         </p>
       </div>
 
