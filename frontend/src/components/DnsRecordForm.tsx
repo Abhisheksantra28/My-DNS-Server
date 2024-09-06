@@ -25,28 +25,12 @@ const DnsRecordForm: React.FC<DnsRecordFormProps> = ({ fetchRecords }) => {
     e.preventDefault();
 
     try {
-      // First, check if the nameserver is correctly set
-      const checkResponse = await axios.post(
-        `${SERVER_URL}/api/check-nameserver`,
-        {
-          domain: formData.domain,
-        }
-      );
-
-      if (!checkResponse.data.success) {
-        alert(checkResponse.data.message);
-        return; // Stop the submission if the nameserver is not set correctly
-      }
-
-      // If the nameserver check passes, proceed to create the DNS record
+      // Proceed to create the DNS record
       await axios.post(`${SERVER_URL}/api/create-record`, formData);
       fetchRecords();
       setFormData({ domain: "", type: "A", data: "", ttl: 3600 });
     } catch (error) {
       console.error("Error creating DNS record:", error);
-      alert(
-        "Please add the nameserver as 'ns1.abhisheksantra.tech' in your domain registrar's DNS settings."
-      );
     }
   };
 
@@ -71,8 +55,8 @@ const DnsRecordForm: React.FC<DnsRecordFormProps> = ({ fetchRecords }) => {
         <option value="A">A</option>
         <option value="CNAME">CNAME</option>
         <option value="NS">NS</option>
+        <option value="TXT">TXT</option>
       </select>
-
       <input
         type="text"
         name="data"
@@ -90,7 +74,9 @@ const DnsRecordForm: React.FC<DnsRecordFormProps> = ({ fetchRecords }) => {
         value={formData.ttl}
         onChange={handleChange}
       />
-      <button type="submit">Add Record</button>
+      <button type="submit" className="p-2 bg-blue-500 text-white rounded-md">
+        Add Record
+      </button>
     </form>
   );
 };

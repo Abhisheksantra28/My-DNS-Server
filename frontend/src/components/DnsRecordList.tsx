@@ -12,6 +12,7 @@ const DnsRecordList: React.FC<DnsRecordListProps> = ({ records, fetchRecords }) 
   const deleteRecord = async (id: string) => {
     await axios.delete(`${SERVER_URL}/api/delete-record/${id}`);
     fetchRecords();
+    window.location.reload();
   };
 
   return (
