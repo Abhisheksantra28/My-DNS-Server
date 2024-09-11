@@ -80,7 +80,12 @@ const updateDnsRecord = async (req, res) => {
 
     // Invalidate cache
     const cacheKey = `${record.domain}:${record.type}`;
-    await redis.del(cacheKey);
+    try {
+      await redis.del(cacheKey);
+    } catch (cacheError) {
+      console.error("Error deleting cache key:", cacheError);
+      // but indicate that cache invalidation had issues
+    }
 
     return res.status(200).json({
       success: true,
@@ -111,7 +116,12 @@ const deleteDnsRecord = async (req, res) => {
 
     // Invalidate cache
     const cacheKey = `${record.domain}:${record.type}`;
-    await redis.del(cacheKey);
+    try {
+      await redis.del(cacheKey);
+    } catch (cacheError) {
+      console.error("Error deleting cache key:", cacheError);
+      // but indicate that cache invalidation had issues
+    }
 
     return res.status(200).json({
       success: true,

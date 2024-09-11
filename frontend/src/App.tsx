@@ -9,8 +9,12 @@ const App: React.FC = () => {
   const [records, setRecords] = useState<DnsRecord[]>([]);
 
   const fetchRecords = async () => {
-    const { data } = await axios.get(`${SERVER_URL}/api/get-all-records`);
-    setRecords(data.data);
+    try {
+      const { data } = await axios.get(`${SERVER_URL}/api/get-all-records`);
+      setRecords(data.data); // Ensure data.data contains the list of records
+    } catch (error) {
+      console.error("Error fetching records:", error);
+    }
   };
 
   useEffect(() => {
